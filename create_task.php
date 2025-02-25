@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Erreur : " . $conn->error;
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -141,6 +142,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <a href="create_task.php?delete_id=<?php echo $task['id']; ?>"
                                 onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
                                 Supprimer
+                            </a>
+                        </td>
+                        <td>
+                            <!-- Delete button with a GET parameter for task ID -->
+                            <a href="modify_task.php?task=<?php echo $task['id']; ?>&priority=<?php echo $task['priority']; ?>">
+                                Modifier
                             </a>
                         </td>
                     </tr>
