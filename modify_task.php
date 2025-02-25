@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
 
 <body>
     <h2>Modifier une tâche</h2>
-    <form action="modify_task.php" method="put">
+    <form action="modify_task.php" method="patch">
         <label for="task">Tâche :</label>
         <input type="text" name="task" required value="<?php echo $task ?>"><br>
 
