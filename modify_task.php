@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $priority = $_POST['priority'];
 
     // Ajout de la tâche dans la base de données
-    $sql = "UPDATE TABLE task SET text = '$task', priority = '$priority' WHERE id = '$id'";
+    $sql = "UPDATE task SET text = '$task', priority = '$priority' WHERE id = '$id'";
 
     if ($conn->query($sql) === TRUE) {
         echo "Tâche modifiée avec succès.";
