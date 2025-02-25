@@ -4,6 +4,7 @@ session_start();
 require 'config.php'; // Connexion à la BDD
 
 $user_id = $_SESSION['user_id'];
+$id = '';
 
 if (isset($_GET['task'])) {
     $task = $_GET['task'];
