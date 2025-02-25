@@ -20,13 +20,10 @@ if ($result->num_rows > 0) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $task = $_POST['task'];
-    
-    // Échappement de la tâche
-    $task = mysqli_real_escape_string($conn, $task);
+    $priority = $_POST['priority'];
     
     // Ajout de la tâche dans la base de données
-    $user_id = $_SESSION['user_id'];
-    $sql = "INSERT INTO tasks (user_id, task) VALUES ('$user_id', '$task')";
+    $sql = "INSERT INTO task (text, priority, user_id) VALUES ('$task', '$priority', '$user_id')";
     
     if ($conn->query($sql) === TRUE) {
         echo "Tâche ajoutée avec succès.";
@@ -48,6 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form action="create_task.php" method="post">
         <label for="task">Nouvelle tâche :</label>
         <input type="text" name="task" required><br>
+
+        <label for="priority">Priorité :</label>
+        <select name="priority" required>
+            <option value="critical">Critique</option>
+            <option value="high">Élevée</option>
+            <option value="medium">Moyenne</option>
+            <option value="low">Basse</option>
+        </select><br>
+
         <button type="submit">Ajouter la tâche</button>
     </form>
 

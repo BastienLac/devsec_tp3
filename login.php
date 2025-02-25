@@ -15,6 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Identifiants incorrects.";
     }
     else{
+        $user = $result->fetch_assoc();
+        // Stocker l'ID de l'utilisateur dans la session après connexion
+        $_SESSION['user_id'] = $user['id'];
         header("Location: create_task.php");
     }
 }

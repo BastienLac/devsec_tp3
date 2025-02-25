@@ -9,7 +9,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE task (
-    id INT AUTO AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     text VARCHAR(255) NOT NULL,
     priority ENUM('critical', 'high', 'medium', 'low') NOT NULL,
     user_id INT NOT NULL,
