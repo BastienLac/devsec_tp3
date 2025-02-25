@@ -8,6 +8,10 @@ $user_id = $_SESSION['user_id'];
 if (isset($_GET['task'])) {
     $task = $_GET['task'];
 }
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+}
+
 if (isset($_GET['priority'])) {
     $priority = $_GET['priority'];
 }
@@ -15,7 +19,7 @@ if (isset($_GET['priority'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
 
     // Ajout de la tâche dans la base de données
-    $sql = "UPDATE TABLE task SET text = '$task', priority = '$priority WHERE user_id = $user_id";
+    $sql = "UPDATE TABLE task SET text = '$task', priority = '$priority WHERE id = $id";
 
     if ($conn->query($sql) === TRUE) {
         echo "Tâche modifiée avec succès.";

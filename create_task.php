@@ -138,15 +138,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td><?php echo $task['text']; ?></td>
                         <td><?php echo $task['priority']; ?></td>
                         <td>
-                            <!-- Delete button with a GET parameter for task ID -->
                             <a href="create_task.php?delete_id=<?php echo $task['id']; ?>"
                                 onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
                                 Supprimer
                             </a>
                         </td>
                         <td>
-                            <!-- Delete button with a GET parameter for task ID -->
-                            <a href="modify_task.php?task=<?php echo $task['id']; ?>&priority=<?php echo $task['priority']; ?>">
+                            <a href="modify_task.php?id=<?php echo $task['id']; ?>&task=<?php echo $task['text']; ?>&priority=<?php echo $task['priority']; ?>">
                                 Modifier
                             </a>
                         </td>
