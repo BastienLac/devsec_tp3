@@ -33,6 +33,8 @@ if (isset($_GET['delete_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $search_text = '';
+    $priority_filter = '';
     if (isset($_GET['search_text'])) {
         $search_text = $_GET['search_text'];
     }
@@ -105,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h2>Filtrer les tâches</h2>
     <form action="create_task.php" method="get">
         <label for="search_text">Rechercher (par description) :</label>
-        <input type="text" name="search_text"><br>
+        <input type="text" name="search_text" value="<?php echo $search_text ?>"><br>
 
         <label for="priority_filter">Filtrer par priorité :</label>
         <select name="priority_filter">
