@@ -18,6 +18,20 @@ if ($result->num_rows > 0) {
     }
 }
 
+if (isset($_GET['delete_id'])) {
+    $task_id = $_GET['delete_id'];
+
+    $sql = "DELETE FROM task WHERE id = '$task_id' AND user_id = '$user_id'";
+
+    if ($conn->query($delete_sql) === TRUE) {
+        echo "Tâche supprimée avec succès.";
+        header("Location: create_task.php");
+        exit();
+    } else {
+        echo "Erreur lors de la suppression : " . $conn->error;
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $task = $_POST['task'];
     $priority = $_POST['priority'];
@@ -72,6 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <tr>
                         <td><?php echo htmlspecialchars($task['text']); ?></td>
                         <td><?php echo htmlspecialchars($task['priority']); ?></td>
+                        <td>
+                            <!-- Delete button with a GET parameter for task ID -->
+                            <a href="create_task.php?delete_id=<?php echo $task['id']; ?>" 
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
+                               Supprimer
+                            </a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
