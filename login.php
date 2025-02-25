@@ -7,24 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Préparation de la requête
-    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username =  '$username' AND password = '$password'");
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        // Vérification du mot de passe
-        if (password_verify($password, $user['password'])) {
-            // Authentification réussie
-            $_SESSION['user_id'] = $user['id'];
-            echo "Connexion réussie !";
-            // Redirection vers la page d'accueil ou la liste des tâches
-        } else {
-            echo "Mot de passe incorrect.";
-        }
-    } else {
-        echo "Nom d'utilisateur incorrect.";
+    if ($result->num_rows == 0) {
+        echo "Identifiants incorrects.";
+    }
+    else{
+        header("Location: create_task.php");
     }
 }
 ?>
