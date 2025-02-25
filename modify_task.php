@@ -16,7 +16,9 @@ if (isset($_GET['priority'])) {
     $priority = $_GET['priority'];
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $task = $_POST['task'];
+    $priority = $_POST['priority'];
 
     // Ajout de la tâche dans la base de données
     $sql = "UPDATE TABLE task SET text = '$task', priority = '$priority' WHERE id = '$id'";
@@ -43,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 
 <body>
     <h2>Modifier une tâche</h2>
-    <form action="modify_task.php" method="put">
+    <form action="modify_task.php" method="post">
         <label for="task">Tâche :</label>
         <input type="text" name="task" required value="<?php echo $task ?>"><br>
 
