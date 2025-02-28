@@ -6,18 +6,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Préparation de la requête
-    $result = $conn->query("SELECT id, password FROM users WHERE username =  '$username' AND password = '$password'");
+    // Prepared statement to prevent SQL Injection
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username); // 's' is for string
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if($result){
+    if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        // Stocker l'ID de l'utilisateur dans la session après connexion
-        $_SESSION['user_id'] = $user['id'];
-        header("Location: create_task.php");  
+
+        // Verify password using password_verify()
+        if (password_verify($password, $user['password'])) {
+            // Regenerate session ID to prevent session fixation
+            session_regenerate_id(true);
+
+            // Store user ID in the session
+            $_SESSION['user_id'] = $user['id'];
+            header("Location: create_task.php");  
+        } else {
+            echo "Identifiants incorrects.";
+        }
+    } else {
+        echo "Identifiants incorrects.";
     }
-    else {
-        echo "Identifiants incorrects. Utilisateur: " . $username;
-    }
+
+    $stmt->close();
 }
 ?>
 

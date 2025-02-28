@@ -4,6 +4,12 @@ require 'config.php'; // Connexion à la BDD
 
 $user_id = $_SESSION['user_id'];
 
+// Ensure the user is logged in
+if (!isset($user_id)) {
+    header("Location: login.php");
+    exit();
+}
+
 // Get task details from URL query parameters
 if (isset($_GET['task']) && isset($_GET['id']) && isset($_GET['priority'])) {
     $task = $_GET['task'];
@@ -16,15 +22,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $priority = $_POST['priority'];
     $id = $_POST['id'];  
     
-    $sql = "UPDATE task SET text = '$task', priority = '$priority' WHERE id = '$id' AND user_id = '$user_id'";
+    // Prepared statement to update task
+    $stmt = $conn->prepare("UPDATE task SET text = ?, priority = ? WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ssii", $task, $priority, $id, $user_id);
 
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
         echo "Tâche modifiée avec succès.";
         header("Location: create_task.php");
         exit();
     } else {
-        echo "Erreur : " . $conn->error;
+        echo "Erreur : " . $stmt->error;
     }
+    $stmt->close();
 }
 ?>
 
@@ -39,10 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h2>Modifier une tâche</h2>
     <form action="modify_task.php" method="post">
         <!-- Hidden input field for task ID -->
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
 
         <label for="task">Tâche :</label>
-        <input type="text" name="task" required value="<?php echo $task; ?>"><br>
+        <input type="text" name="task" required value="<?php echo htmlspecialchars($task); ?>"><br>
 
         <label for="priority">Priorité :</label>
         <select name="priority">
